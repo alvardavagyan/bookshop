@@ -1,11 +1,13 @@
 import { BasketItem } from "./BasketItem"
-export const Basket=({items,total,id,onUp,onDown,onRemove})=>{
-    return <div>  
+import { UserContext, setTotal } from "../context"
+import { useContext } from "react"
 
-          <h3>Basket</h3>        
-          <strong> TOTAL : {total}  AMD</strong>
+export const Basket = () => {
+    const { state: { basket } } = useContext(UserContext)
+    const total = setTotal(basket)
 
-
+    return <div>
+        <h3>Basket</h3>
         <table>
             <thead>
                 <tr>
@@ -15,18 +17,15 @@ export const Basket=({items,total,id,onUp,onDown,onRemove})=>{
                     <th>subtotal</th>
                     <th>actions</th>
                 </tr>
+            </thead>
 
-                </thead>      
-
-                <tbody>
-                    {
-                        items.map(elm=><BasketItem key={elm.id} {...elm}
-                         onUp={onUp} onDown={onDown} onRemove={onRemove}  />
-                            
-                        )
-                    }
-                </tbody>
-        </table>      
+            <tbody>
+                {
+                    basket.map(elm => <BasketItem key={elm.id} {...elm} />)
+                }
+            </tbody>
+            <h4>Total:{total}AMD</h4>
+        </table>
 
     </div>
 }
